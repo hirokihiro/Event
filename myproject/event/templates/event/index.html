@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'event/styles.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>{{ message }}</h1>
+
+        <a href="{% url 'create_event' %}" class="button">新規イベントの作成</a>
+        <a href="{% url 'public_events' %}" class="button">公開イベントを見る</a>
+
+        <hr>
+
+        <h2>イベント一覧</h2>
+        {% if events %}
+        <ul>
+            {% for event in events %}
+            <li>
+                <strong>{{ event.name }}</strong> - {{ event.date }} ({{ event.get_status_display }})
+                <div class="actions">
+                    <a href="{% url 'event_detail' event.id %}" class="button">イベント詳細</a>
+                    <a href="{% url 'edit_event' event.id %}" class="button">編集</a>
+                    <form method="post" action="{% url 'delete_event' event.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button delete"
+                            onclick="return confirm('本当にこのイベントを削除しますか？');">削除</button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>イベントはありません</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>

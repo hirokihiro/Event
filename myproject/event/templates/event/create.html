@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'event/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">新規イベントの作成</h1>
+        </header>
+        <div class="form-container">
+            <form method="post" class="form">
+                {% csrf_token %}
+                <div class="form-fields">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="button submit-button">保存</button>
+            </form>
+            <a href="{% url 'event_index' %}" class="back-link">トップページへ戻る</a>
+        </div>
+    </div>
+</body>
+</html>
